@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 4.1)
+project(Gra_Zgadnij_Liczb___Projekt_na_Podstawy_Programowania)
+
+set(CMAKE_CXX_STANDARD 20)
+
+add_executable(Gra_Zgadnij_Liczb___Projekt_na_Podstawy_Programowania main.cpp)
