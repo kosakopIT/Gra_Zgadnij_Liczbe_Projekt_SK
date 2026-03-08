@@ -3,6 +3,7 @@
 
 #include "AsciiArt.h"
 #include <iostream>
+#include "ClearScreen.h"
 
 using std::cout;
 using std::endl;

@@ -7,7 +7,7 @@
 #include <windows.h>  // SetConsoleOutputCP (Windows)
 #include <fstream>    // ifstream/ofstream
 #include <string>
-
+#include "ClearScreen.h"
 #include "Menu.h"
 #include "Game.h"
 #include "HighScores.h"

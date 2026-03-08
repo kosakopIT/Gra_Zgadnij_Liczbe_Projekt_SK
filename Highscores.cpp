@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include "ClearScreen.h"
 
 using std::cout;
 using std::endl;

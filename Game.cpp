@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Messages.h"
 #include "AsciiArt.h"
+#include "ClearScreen.h"
 #include <iostream>
 #include <limits>
 
@@ -37,6 +38,7 @@ Difficulty Game::difficultyFromChoice(int choice) {
 }
 
 // Główny punkt wejścia do gry
+
 void Game::start() {
     int diffChoice;
     

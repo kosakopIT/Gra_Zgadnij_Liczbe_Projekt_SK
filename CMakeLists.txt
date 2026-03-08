@@ -17,6 +17,7 @@ set(SOURCES
         Messages.cpp
         AsciiArt.cpp
         Highscores.cpp
+		clearscreen.cpp
 )
 
 # Lista plików nagłówkowych (opcjonalnie, dla IDE)
@@ -27,6 +28,8 @@ set(HEADERS
         Game.h
 		Difficulty.h
         Highscores.h
+		clearscreen.h
+
 )
 
 # Tworzenie wykonywalnego pliku
