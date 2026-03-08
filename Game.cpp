@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "Messages.h"
 #include "AsciiArt.h"
-#include "ClearScreen.h"
+
 #include <iostream>
 #include <limits>
 

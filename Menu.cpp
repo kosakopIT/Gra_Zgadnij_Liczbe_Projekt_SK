@@ -1,6 +1,6 @@
 // Menu.cpp
 // Implementacja obsługi menu.
-#include "ClearScreen.h"
+
 #include "Menu.h"
 #include "AsciiArt.h"
 #include "Messages.h"
@@ -20,7 +20,7 @@ bool Menu::hasAnyScores() const {
 
 // Wyświetlanie i obsługa menu głównego
 bool Menu::showMainMenu() {
-    ClearScreen::clear();
+
     int choice;
 
     // ASCII‑interfejs menu głównego + powitanie
@@ -71,7 +71,7 @@ bool Menu::showMainMenu() {
 
 // Podmenu Top5
 void Menu::showTop5Menu() {
-    ClearScreen::clear();
+
     bool inTop = true;
 
     while (inTop) {
