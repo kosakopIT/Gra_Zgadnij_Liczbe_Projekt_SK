@@ -52,9 +52,9 @@ void Game::start() {
 
     Difficulty diff = difficultyFromChoice(diffChoice);
 
-    // Pytanie o tryb zakładu
-    int betChoice;
+    // **JEDNO zapytanie o tryb zakładu**
     Messages::showBetModeMenu();
+    int betChoice;
     cin >> betChoice;
 
     bool betMode = false;
@@ -71,34 +71,14 @@ void Game::start() {
         }
     }
 
-    // Uruchamiamy jedną rozgrywkę
-    playSingleGame(diff);
-
-    // Po zakończeniu wracamy do menu głównego (obsługiwane w Menu)
+    // Uruchamiamy jedną rozgrywkę z już ustalonym trybem zakładu
+    playSingleGame(diff, betMode, betTries);
 }
 
-// Właściwa rozgrywka
-void Game::playSingleGame(Difficulty diff) {
+// Właściwa rozgrywka (zmieniona sygnatura)
+void Game::playSingleGame(Difficulty diff, bool betMode, int betTries) {
     int maxNumber = getMaxNumberForDifficulty(diff);
     int secret = 1 + std::rand() % maxNumber;
-
-    // Pytamy ponownie o tryb zakładu, aby wypełnić wymaganie trybu
-    Messages::showBetModeMenu();
-    int betChoice = 0;
-    cin >> betChoice;
-
-    bool betMode = false;
-    int betTries = 0;
-    if (betChoice == 1) {
-        betMode = true;
-        Messages::askBetTries();
-        cin >> betTries;
-        if (betTries <= 0) {
-            AsciiArt::printQuestionMark();
-            Messages::randomGameRangeError();
-            return;
-        }
-    }
 
     playGuessingLoop(secret, maxNumber, diff, betMode, betTries);
 }

@@ -37,7 +37,7 @@ namespace Messages {
 
     // Menu Top5 – wybór trudności
     void showTop5MenuOptions() {
-        cout << "\nTOP5 – wybierz trudnosc:\n";
+        cout << "\nTOP5 Wybierz tabele trudnosci:\n";
         cout << "1) Dzieciecy\n";
         cout << "2) Latwy\n";
         cout << "3) Normalny\n";
@@ -87,7 +87,7 @@ namespace Messages {
     }
 
     void askBetTries() {
-        cout << "Podaj ilosc prob dla trybu zakladu: ";
+        cout << "\n Podaj ilosc prob dla trybu zakladu: ";
     }
 
     // Komunikat wygranej

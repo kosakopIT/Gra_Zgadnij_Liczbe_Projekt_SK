@@ -18,7 +18,7 @@ private:
 
     int getMaxNumberForDifficulty(Difficulty diff);
     Difficulty difficultyFromChoice(int choice);
-    void playSingleGame(Difficulty diff);
+    void playSingleGame(Difficulty diff, bool betMode, int betTries);
     void playGuessingLoop(int secret, int maxNumber, Difficulty diff, bool betMode, int betTries);
 };
 
