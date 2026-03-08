@@ -1,14 +1,31 @@
+// main.cpp
+// Główny plik programu, inicjuje grę i uruchamia pętlę menu.
+
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include "Menu.h"
+#include "Game.h"
+#include "HighScores.h"
 
+int main() {
+    // Inicjowanie generatora liczb losowych
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-int main()
-{
-    auto lang = "C++";
-    std::cout << "Hello and welcome to " << lang << "!\n";
+    HighScores highScores;
 
-    for (int i = 1; i <= 5; i++)
+    highScores.loadFromFile("top5.txt");
 
-        std::cout << "i = " << i << std::endl;
+    Game game(highScores);
+
+    Menu menu(game, highScores);
+
+    bool running = true;
+    while (running) {
+        running = menu.showMainMenu();
     }
 
+    highScores.saveToFile("top5.txt");
+
     return 0;
+}
