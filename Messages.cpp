@@ -48,7 +48,7 @@ namespace Messages {
         cout << "5) Hardcore\n";
         cout << "6) Boski\n";
         cout << "7) Powrot do menu glownego\n";
-        cout << "Wybor: ";
+
     }
 
     // Losowy komunikat błędu w Top5
@@ -66,7 +66,6 @@ namespace Messages {
     void showTop5BetChoice() {
         cout << "1) Tabela zwykla\n";
         cout << "2) Tabela trybu zakladu\n";
-        cout << "Wybor: ";
     }
 
     // Menu wyboru trudności gry
@@ -78,7 +77,6 @@ namespace Messages {
         cout << "4) Trudny (1-250)\n";
         cout << "5) Hardcore (1-500)\n";
         cout << "6) Boski (1-1000)\n";
-        cout << "Wybor: ";
     }
 
     // Menu wyboru trybu zakładu
@@ -86,7 +84,6 @@ namespace Messages {
         cout << "\nCzy chcesz wlaczyc tryb zakladu?\n";
         cout << "1) Tak\n";
         cout << "2) Nie\n";
-        cout << "Wybor: ";
     }
 
     void askBetTries() {
