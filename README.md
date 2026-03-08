@@ -30,7 +30,6 @@ Menu główne (1, 2, 3):
 
 Wybór trudności:
 
-text
 1. Dziecięcy (1-10)
 2. Łatwy (1-50)  
 3. Normalny (1-100)
