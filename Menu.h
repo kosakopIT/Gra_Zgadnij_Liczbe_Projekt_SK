@@ -1,8 +1,7 @@
 // Menu.h
 // Deklaracja klasy Menu odpowiedzialnej za wyświetlanie i obsługę menu głównego oraz Top5.
 
-#ifndef MENU_H
-#define MENU_H
+
 
 #include "Game.h"
 #include "HighScores.h"
@@ -24,5 +23,3 @@ private:
     // Sprawdzenie, czy istnieją jakiekolwiek wyniki
     bool hasAnyScores() const;
 };
-
-#endif

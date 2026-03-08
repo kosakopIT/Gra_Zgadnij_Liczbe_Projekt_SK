@@ -1,5 +1,4 @@
-#ifndef ASCII_ART_H
-#define ASCII_ART_H
+
 
 namespace AsciiArt {
     void printMainMenuHeader();
@@ -8,5 +7,3 @@ namespace AsciiArt {
     void printStar();
     void printQuestionMark();
 }
-
-#endif

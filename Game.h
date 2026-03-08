@@ -3,18 +3,9 @@
 #define GAME_H
 
 #include "HighScores.h"
+#include "Difficulty.h"
 
 // Poprawiona definicja enum class - WYNOŚ Z KLASY!
-
-enum class Difficulty {
-
-        DZIECIECY = 1,
-        LATWY,
-        NORMALNY,
-        TRUDNY,
-        HARDCORE,
-        BOSKI
-};
 
 
 class Game {

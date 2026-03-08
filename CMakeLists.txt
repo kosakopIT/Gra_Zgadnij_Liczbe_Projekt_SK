@@ -25,6 +25,7 @@ set(HEADERS
         Messages.h
         AsciiArt.h
         Game.h
+	Difficulty.h	
         Highscores.h
 )
 
