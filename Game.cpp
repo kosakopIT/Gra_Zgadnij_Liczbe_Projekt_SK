@@ -39,15 +39,19 @@ Difficulty Game::difficultyFromChoice(int choice) {
 // Główny punkt wejścia do gry
 void Game::start() {
     int diffChoice;
+    
     // Wyświetlenie menu wyboru trudności
     Messages::showDifficultyMenu();
-    cin >> diffChoice;
-
-    if (diffChoice < 1 || diffChoice > 6) {
-        // Błędny wybór – komunikat + znak zapytania
+    
+    // Bezpieczne czytanie 1-6
+    while (!(cin >> diffChoice) || diffChoice < 1 || diffChoice > 6) {
+        if (!cin) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
         AsciiArt::printQuestionMark();
         Messages::randomMainMenuError();
-        return;
+        Messages::showDifficultyMenu();
     }
 
     Difficulty diff = difficultyFromChoice(diffChoice);
@@ -55,31 +59,41 @@ void Game::start() {
     // **JEDNO zapytanie o tryb zakładu**
     Messages::showBetModeMenu();
     int betChoice;
-    cin >> betChoice;
+    // Bezpieczne czytanie 1-2
+    while (!(cin >> betChoice) || betChoice < 1 || betChoice > 2) {
+        if (!cin) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        AsciiArt::printQuestionMark();
+        Messages::randomGameRangeError();
+        Messages::showBetModeMenu();
+    }
 
-    bool betMode = false;
+    bool betMode = (betChoice == 1);
     int betTries = 0;
-    if (betChoice == 1) {
-        betMode = true;
-        // Pobieramy od gracza liczbę prób w trybie zakładu
+    if (betMode) {
+        // Pobieramy liczbę prób w trybie zakładu (1+)
         Messages::askBetTries();
-        cin >> betTries;
-        if (betTries <= 0) {
+        while (!(cin >> betTries) || betTries <= 0) {
+            if (!cin) {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
             AsciiArt::printQuestionMark();
             Messages::randomGameRangeError();
-            return;
+            Messages::askBetTries();
         }
     }
 
-    // Uruchamiamy jedną rozgrywkę z już ustalonym trybem zakładu
+    // Uruchamiamy jedną rozgrywkę
     playSingleGame(diff, betMode, betTries);
 }
 
-// Właściwa rozgrywka (zmieniona sygnatura)
+// Właściwa rozgrywka
 void Game::playSingleGame(Difficulty diff, bool betMode, int betTries) {
     int maxNumber = getMaxNumberForDifficulty(diff);
     int secret = 1 + std::rand() % maxNumber;
-
     playGuessingLoop(secret, maxNumber, diff, betMode, betTries);
 }
 
@@ -91,25 +105,19 @@ void Game::playGuessingLoop(int secret, int maxNumber,
 
     while (true) {
         attempts++;
-        // Wyświetlamy numer aktualnej próby
         cout << "\nProba nr: " << attempts << endl;
         cout << "Podaj liczbe: ";
-        cin >> guess;
-
-        // Obsługa błędnego wejścia (np. litera zamiast liczby)
-        if (!cin) {
-            cin.clear();
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        
+        // Bezpieczne czytanie 1-maxNumber
+        while (!(cin >> guess) || guess < 1 || guess > maxNumber) {
+            if (!cin) {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
             AsciiArt::printQuestionMark();
             Messages::randomGameRangeError();
-            continue;
-        }
-
-        // Sprawdzenie zakresu
-        if (guess < 1 || guess > maxNumber) {
-            AsciiArt::printQuestionMark();
-            Messages::randomOutOfRangeMessage();
-            continue;
+            cout << "\nProba nr: " << attempts << endl;
+            cout << "Podaj liczbe (1-" << maxNumber << "): ";
         }
 
         // Trafienie
@@ -117,54 +125,40 @@ void Game::playGuessingLoop(int secret, int maxNumber,
             AsciiArt::printTrophy();
             Messages::randomWinMessage();
 
-            // Pobranie imienia gracza po wygranej
+            // Pobranie imienia (string - odporne na spacje via getline)
             cout << "\nPodaj swoje imie: ";
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');  // Czyści buffer
             std::string name;
-            cin >> name;
+            std::getline(std::cin, name);
 
-            // Zapis wyniku do struktury Top5
             highScores.addScore(diff, name, attempts, betMode);
-
+            highScores.saveToFile("top5.txt");  // Zapis natychmiast
             return;
         }
 
-        // Obliczamy różnicę, aby dobrać odpowiedni komunikat
+        // Podpowiedzi (za duża / za mała)
         int diffVal = guess - secret;
-
-        // Za duża / za mała i wybór zakresu różnicy
         AsciiArt::printSkull();
         if (diffVal > 0) {
             // Za duża
-            if (diffVal <= 5) {
-                Messages::randomTooHigh_0_5();
-            } else if (diffVal <= 10) {
-                Messages::randomTooHigh_5_10();
-            } else if (diffVal <= 50) {
-                Messages::randomTooHigh_10_50();
-            } else if (diffVal <= 100) {
-                Messages::randomTooHigh_50_100();
-            } else {
-                Messages::randomTooHigh_100plus();
-            }
+            if (diffVal <= 5) Messages::randomTooHigh_0_5();
+            else if (diffVal <= 10) Messages::randomTooHigh_5_10();
+            else if (diffVal <= 50) Messages::randomTooHigh_10_50();
+            else if (diffVal <= 100) Messages::randomTooHigh_50_100();
+            else Messages::randomTooHigh_100plus();
         } else {
             // Za mała
             diffVal = -diffVal;
-            if (diffVal <= 5) {
-                Messages::randomTooLow_0_5();
-            } else if (diffVal <= 10) {
-                Messages::randomTooLow_5_10();
-            } else if (diffVal <= 50) {
-                Messages::randomTooLow_10_50();
-            } else if (diffVal <= 100) {
-                Messages::randomTooLow_50_100();
-            } else {
-                Messages::randomTooLow_100plus();
-            }
+            if (diffVal <= 5) Messages::randomTooLow_0_5();
+            else if (diffVal <= 10) Messages::randomTooLow_5_10();
+            else if (diffVal <= 50) Messages::randomTooLow_10_50();
+            else if (diffVal <= 100) Messages::randomTooLow_50_100();
+            else Messages::randomTooLow_100plus();
         }
 
-        // Jeśli jest tryb zakładu – sprawdź, czy gracz przekroczył limit prób
+        // Limit prób w trybie zakładu
         if (betMode && attempts >= betTries) {
-            cout << "\nPrzekroczyles ustalona liczbe prob. Przegrales.\n";
+            cout << "\nPrzekroczyles limit prob. Przegrales.\n";
             return;
         }
     }

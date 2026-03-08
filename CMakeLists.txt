@@ -16,7 +16,7 @@ set(SOURCES
         Menu.cpp
         Messages.cpp
         AsciiArt.cpp
-        HighScores.cpp
+        Highscores.cpp
 )
 
 # Lista plików nagłówkowych (opcjonalnie, dla IDE)

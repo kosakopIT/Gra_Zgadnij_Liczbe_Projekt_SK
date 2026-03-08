@@ -1,34 +1,46 @@
 // main.cpp
-// Główny plik programu, inicjuje grę i uruchamia pętlę menu.
+// Główny plik programu
 
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include <windows.h>
+#include <windows.h>  // SetConsoleOutputCP (Windows)
+#include <fstream>    // ifstream/ofstream
+#include <string>
+
 #include "Menu.h"
 #include "Game.h"
 #include "HighScores.h"
 
-int main() {
-    // Inicjowanie generatora liczb losowych
-    SetConsoleOutputCP(CP_UTF8);
+using namespace std;
 
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+int main() {
+    // Inicjalizacja generatora liczb losowych
+    SetConsoleOutputCP(CP_UTF8);
+    srand(static_cast<unsigned int>(time(nullptr)));
 
     HighScores highScores;
 
+    // **SAM TWORZY top5.txt jeśli brak**
+    ifstream checkFile("top5.txt");
+    if (!checkFile.good()) {
+        highScores.saveToFile("top5.txt");  // Tworzy pusty
+        cout << "Utworzono top5.txt\n";
+    }
+    checkFile.close();
+
+    // Ładuje wyniki (lub puste)
     highScores.loadFromFile("top5.txt");
 
     Game game(highScores);
-
     Menu menu(game, highScores);
 
     bool running = true;
     while (running) {
         running = menu.showMainMenu();
+        // Zapis po wyjściu z menu (bezpieczny)
+        highScores.saveToFile("top5.txt");
     }
-
-    highScores.saveToFile("top5.txt");
 
     return 0;
 }

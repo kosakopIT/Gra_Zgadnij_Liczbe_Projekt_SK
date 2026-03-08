@@ -76,15 +76,35 @@ void HighScores::saveToFile(const std::string& filename) const {
     std::ofstream out(filename);
     if (!out) return;
 
-    // Format: d m name attempts
+    // Nagłówek pliku
+    out << "=== ZGADNIJ LICZBĘ - TOP5 ===\n\n";
+
+    static const char* diffNames[6] = {"Dzieciecy", "Latwy", "Normalny", "Trudny", "Hardcore", "Boski"};
+
+    // Dla każdego poziomu trudności i trybu
     for (int d = 0; d < 6; ++d) {
         for (int m = 0; m < 2; ++m) {
-            for (const auto& e : scores[d][m]) {
-                out << d << " " << m << " "
-                    << e.name << " " << e.attempts << "\n";
+            const auto& v = scores[d][m];
+            if (v.empty()) continue;
+
+            // Tytuł tabeli (jak printTable)
+            out << "Top5 " << diffNames[d];
+            if (m == 1) out << " (Tryb zakladu)";
+            else out << " (Normalny)";
+            out << "\n";
+            out << "Poz | Imie     | Proby\n";
+            out << "-------------------------------------\n";
+
+            // Top5 wyników (posortowane)
+            for (std::size_t i = 0; i < v.size(); ++i) {
+                out << (i+1) << "  | "
+                    << v[i].name.substr(0,8) << " | "  // Imię max 8 znaków
+                    << v[i].attempts << "\n";
             }
+            out << "\n";
         }
     }
+    out.close();
 }
 
 void HighScores::loadFromFile(const std::string& filename) {
