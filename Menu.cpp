@@ -1,6 +1,6 @@
 // Menu.cpp
 // Implementacja obsługi menu.
-
+#include "ClearScreen.h"
 #include "Menu.h"
 #include "AsciiArt.h"
 #include "Messages.h"
