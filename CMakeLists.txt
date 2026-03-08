@@ -32,3 +32,4 @@ set(HEADERS
 # Tworzenie wykonywalnego pliku
 add_executable(zgadnij ${SOURCES} ${HEADERS})
 
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++ -static")
