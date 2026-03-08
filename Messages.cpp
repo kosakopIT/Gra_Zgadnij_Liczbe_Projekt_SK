@@ -24,7 +24,7 @@ namespace Messages {
             cout << "1. Rozpocznij gre" << endl;
             cout << "3. Wyjscie" << endl;
         }
-        cout << "Wybierz opcje: ";
+
     }
 
     // Losowy komunikat błędu w menu głównym

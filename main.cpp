@@ -4,12 +4,15 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <windows.h>
 #include "Menu.h"
 #include "Game.h"
 #include "HighScores.h"
 
 int main() {
     // Inicjowanie generatora liczb losowych
+    SetConsoleOutputCP(CP_UTF8);
+
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     HighScores highScores;

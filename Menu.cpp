@@ -5,6 +5,7 @@
 #include "AsciiArt.h"
 #include "Messages.h"
 #include <iostream>
+#include <limits>  // Dla numeric_limits
 
 using std::cin;
 using std::cout;
@@ -31,7 +32,20 @@ bool Menu::showMainMenu() {
         Messages::showMainMenuOptions(false); // Menu bez Top5
     }
 
-    cin >> choice;
+    // Bezpieczne czytanie int (1-3)
+    while (!(cin >> choice) || choice < 1 || choice > 3) {
+        if (!cin) {
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        AsciiArt::printQuestionMark();
+        Messages::randomMainMenuError();
+        if (hasAnyScores()) {
+            Messages::showMainMenuOptions(true);
+        } else {
+            Messages::showMainMenuOptions(false);
+        }
+    }
 
     switch (choice) {
         case 1:
@@ -47,9 +61,7 @@ bool Menu::showMainMenu() {
             cout << "Zegnaj!\n";
             return false;
         default:
-            // Niepoprawny wybór menu
-            AsciiArt::printQuestionMark();
-            Messages::randomMainMenuError();
+            // Nieosiągalne dzięki walidacji
             break;
     }
 
@@ -65,31 +77,39 @@ void Menu::showTop5Menu() {
         Messages::showTop5MenuOptions();
 
         int choice;
-        cin >> choice;
+        // Bezpieczne czytanie int (1-7)
+        while (!(cin >> choice) || choice < 1 || choice > 7) {
+            if (!cin) {
+                cin.clear();
+                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            }
+            AsciiArt::printQuestionMark();
+            Messages::randomTop5Error();
+            AsciiArt::printStar();
+            Messages::showTop5MenuOptions();
+        }
 
         if (choice >= 1 && choice <= 6) {
-            bool betMode = false;
-            // Wybór, czy tabela z trybem zakładu, czy bez
+            // Wybór trybu zakładu (1-2)
             Messages::showTop5BetChoice();
             int betChoice;
-            cin >> betChoice;
-            if (betChoice == 1) betMode = false;
-            else if (betChoice == 2) betMode = true;
-            else {
+            while (!(cin >> betChoice) || betChoice < 1 || betChoice > 2) {
+                if (!cin) {
+                    cin.clear();
+                    cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                }
                 AsciiArt::printQuestionMark();
                 Messages::randomTop5Error();
-                continue;
+                Messages::showTop5BetChoice();
             }
 
+            bool betMode = (betChoice == 2);
             Difficulty diff = static_cast<Difficulty>(choice);
             AsciiArt::printStar();
             highScores.printTable(diff, betMode);
         } else if (choice == 7) {
             // Powrót do menu głównego
             inTop = false;
-        } else {
-            AsciiArt::printQuestionMark();
-            Messages::randomTop5Error();
         }
     }
 }
