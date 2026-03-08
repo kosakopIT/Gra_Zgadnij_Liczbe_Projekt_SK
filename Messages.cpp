@@ -13,15 +13,18 @@ namespace Messages {
     }
 
     // Menu główne – opcje
-    void showMainMenuOptions(bool showTop5) {
-        cout << "1) Rozpocznij gre\n";
-        if (showTop5) {
-            cout << "2) Sprawdz Top5 wynikow\n";
+    void showMainMenuOptions(bool hasScores) {
+        if (hasScores) {
+            // Wyświetl pełne menu: 1.Gra, 2.Top5, 3.Wyjście
+            cout << "1. Rozpocznij gre" << endl;
+            cout << "2. Top5" << endl;
+            cout << "3. Wyjscie" << endl;
         } else {
-            cout << "2) Top5 (brak wynikow)\n";
+            // Wyświetl menu bez Top5: 1.Gra, 2.Wyjście
+            cout << "1. Rozpocznij gre" << endl;
+            cout << "3. Wyjscie" << endl;
         }
-        cout << "3) Wyjdz z programu\n";
-        cout << "Wybor: ";
+        cout << "Wybierz opcje: ";
     }
 
     // Losowy komunikat błędu w menu głównym

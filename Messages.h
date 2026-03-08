@@ -3,7 +3,7 @@
 
 namespace Messages {
     // Menu główne
-    void showMainMenuOptions(bool showTop5);
+    void showMainMenuOptions(bool hasScores);
     void randomMainMenuError();
 
     // Menu Top5

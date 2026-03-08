@@ -23,7 +23,13 @@ bool Menu::showMainMenu() {
 
     // ASCII‑interfejs menu głównego + powitanie
     AsciiArt::printMainMenuHeader();
-    Messages::showMainMenuOptions(hasAnyScores());
+
+    // **DYNAMMICZNE menu w zależności od wyników**
+    if (hasAnyScores()) {
+        Messages::showMainMenuOptions(true);  // Pełne menu z Top5
+    } else {
+        Messages::showMainMenuOptions(false); // Menu bez Top5
+    }
 
     cin >> choice;
 
@@ -33,13 +39,8 @@ bool Menu::showMainMenu() {
             game.start();
             break;
         case 2:
-            // Top5 – tylko jeśli są wyniki
-            if (hasAnyScores()) {
-                showTop5Menu();
-            } else {
-                AsciiArt::printQuestionMark();
-                Messages::randomMainMenuError();
-            }
+            // Top5 – tylko jeśli są wyniki (już sprawdzone przed wyświetleniem)
+            showTop5Menu();
             break;
         case 3:
             // Wyjście z programu
